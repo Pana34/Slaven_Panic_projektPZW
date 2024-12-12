@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Početna Stranica</title>
+</head>
+<body>
+    <h1>This is our homepage</h1>
+
+    {% if user.is_authenticated %}
+        <p>Vaše ime: {{ user.username }}</p>
+
+        {% if is_admin %}
+            <p>Dobrodošli, Administrator!</p>
+            <a href="/admin/">Admin Panel</a>
+        {% elif is_user %}
+            <p>Dobrodošli, Korisniče!</p>
+            <a href="/main/korisnik/">Korisnički Panel</a>
+        {% else %}
+            <p>Niste dodijeljeni nijednoj grupi.</p>
+        {% endif %}
+
+    {% else %}
+        <p>Niste prijavljeni.</p>
+    {% endif %}
+</body>
+</html>

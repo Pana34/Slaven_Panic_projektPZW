@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Korisnički Panel</title>
+</head>
+<body>
+    <h1>Dobrodošli u korisnički panel!</h1>
+    <p>Ovdje su dostupne informacije za korisnike:</p>
+
+    <ul>
+        <li><a href="{% url 'index' %}">Početna stranica</a></li>
+        <li><a href="{% url 'budzet_list' %}">Pregled budžeta</a></li>
+        <li><a href="{% url 'prihod_list' %}">Pregled prihoda</a></li>
+        <li><a href="{% url 'rashod_list' %}">Pregled rashoda</a></li>
+        <li><a href="{% url 'tag_list' %}">Pregled tagova</a></li>
+    </ul>
+    <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Odjava</button>
+    </form>
+</body>
+</html>

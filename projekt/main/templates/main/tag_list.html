@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popis Tagova</title>
+</head>
+<body>
+    <h1>Popis svih tagova</h1>
+    <ul>
+        {% for tag in tagovi %}
+            <li>
+                <strong>{{ tag.naziv }}</strong><br>
+                Povezani budžeti: {% for budzet in tag.budzeti.all %}{{ budzet.naziv }}{% endfor %}<br>
+                Povezani prihodi: {% for prihod in tag.prihodi.all %}{{ prihod.naziv }}{% endfor %}<br>
+                Povezani rashodi: {% for rashod in tag.rashodi.all %}{{ rashod.naziv }}{% endfor %}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
