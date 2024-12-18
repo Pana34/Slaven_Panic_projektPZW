@@ -7,16 +7,25 @@
 </head>
 <body>
     <h1>Popis svih budžeta</h1>
+
+    <!-- Forma za filtriranje po nazivu budžeta -->
+    <form method="get">
+        <label for="naziv">Naziv budžeta:</label>
+        <input type="text" name="naziv" value="{{ request.GET.naziv }}">
+        <button type="submit">Filtriraj</button>
+    </form>
+
     <ul>
-        {% for budzet in budzeti %}
+        {% for budzet in object_list %}
             <li>
                 <strong>{{ budzet.naziv }}</strong><br>
                 Iznos: {{ budzet.iznos }} €<br>
                 Datum: {{ budzet.datum }}<br>
                 Opis: {{ budzet.opis }}<br>
-                Kategorija: {{ budzet.kategorija.naziv|default:"Nema kategorije" }}<br>
+                Kategorija: {{ budzet.tag.naziv|default:"Nema kategorije" }}<br>
             </li>
         {% endfor %}
     </ul>
+
 </body>
 </html>

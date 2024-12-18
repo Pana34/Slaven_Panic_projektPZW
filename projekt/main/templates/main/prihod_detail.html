@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalji Prihoda</title>
+</head>
+<body>
+    <h1>Detalji prihoda: {{ prihod.naziv }}</h1>
+    <p><strong>Iznos:</strong> {{ prihod.iznos }} €</p>
+    <p><strong>Datum:</strong> {{ prihod.datum }}</p>
+    <p><strong>Opis:</strong> {{ prihod.opis }}</p>
+    <p><strong>Budžet:</strong> {% if prihod.budzet %}{{ prihod.budzet.naziv }}{% else %}Nema budžeta{% endif %}</p>
+
+    <a href="{% url 'prihod_list' %}">Nazad na popis prihoda</a>
+</body>
+</html>

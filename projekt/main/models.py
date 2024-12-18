@@ -15,7 +15,7 @@ class Prihod(models.Model):
     iznos = models.FloatField()
     datum = models.DateField()
     opis = models.TextField() 
-    budzet = models.ForeignKey(Budzet, on_delete=models.CASCADE, related_name='prihodi', null=True, blank=True)
+    budzet = models.ForeignKey(Budzet, on_delete=models.SET_NULL, null=True, blank=True)
     
     def __str__(self):
         return self.naziv
@@ -39,3 +39,4 @@ class Tag(models.Model):
     
     def __str__(self):
         return self.naziv
+

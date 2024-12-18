@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalji Taga</title>
+</head>
+<body>
+    <h1>Detalji taga: {{ tag.naziv }}</h1>
+    <p><strong>Opis:</strong> {% if tag.opis %}{{ tag.opis }}{% else %}Nema opisa{% endif %}</p>
+    
+    <h2>Povezani budžeti:</h2>
+    <ul>
+        {% for budzet in tag.budzeti.all %}
+            <li>{{ budzet.naziv }} - {{ budzet.iznos }} €</li>
+        {% empty %}
+            <li>Nema povezanih budžeta.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Povezani prihodi:</h2>
+    <ul>
+        {% for prihod in tag.prihodi.all %}
+            <li>{{ prihod.naziv }} - {{ prihod.iznos }} €</li>
+        {% empty %}
+            <li>Nema povezanih prihoda.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Povezani rashodi:</h2>
+    <ul>
+        {% for rashod in tag.rashodi.all %}
+            <li>{{ rashod.naziv }} - {{ rashod.iznos }} €</li>
+        {% empty %}
+            <li>Nema povezanih rashoda.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'tag_list' %}">Nazad na popis tagova</a>
+</body>
+</html>

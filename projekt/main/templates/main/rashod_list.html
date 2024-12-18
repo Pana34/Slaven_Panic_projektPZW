@@ -7,6 +7,17 @@
 </head>
 <body>
     <h1>Popis svih rashoda</h1>
+
+    <form method="get">
+        <label for="datum_od">Datum od:</label>
+        <input type="date" name="datum_od" value="{{ request.GET.datum_od }}">
+
+        <label for="datum_do">Datum do:</label>
+        <input type="date" name="datum_do" value="{{ request.GET.datum_do }}">
+
+        <button type="submit">Filtriraj</button>
+    </form>
+
     <ul>
         {% for rashod in rashodi %}
             <li>
@@ -18,5 +29,6 @@
             </li>
         {% endfor %}
     </ul>
+
 </body>
 </html>

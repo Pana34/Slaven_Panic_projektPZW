@@ -7,15 +7,24 @@
 </head>
 <body>
     <h1>Popis svih tagova</h1>
+
+    <form method="get">
+        <label for="naziv">Naziv taga:</label>
+        <input type="text" name="naziv" value="{{ request.GET.naziv }}">
+        <button type="submit">Filtriraj</button>
+    </form>
+
     <ul>
-        {% for tag in tagovi %}
+        {% for tag in kategorije %}
             <li>
                 <strong>{{ tag.naziv }}</strong><br>
+                Opis: {% if tag.opis %}{{ tag.opis }}{% else %}Nema opisa{% endif %}<br>
                 Povezani budžeti: {% for budzet in tag.budzeti.all %}{{ budzet.naziv }}{% endfor %}<br>
                 Povezani prihodi: {% for prihod in tag.prihodi.all %}{{ prihod.naziv }}{% endfor %}<br>
                 Povezani rashodi: {% for rashod in tag.rashodi.all %}{{ rashod.naziv }}{% endfor %}
             </li>
         {% endfor %}
     </ul>
+
 </body>
 </html>

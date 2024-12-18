@@ -7,6 +7,17 @@
 </head>
 <body>
     <h1>Popis svih prihoda</h1>
+
+    <form method="get">
+        <label for="datum_od">Datum od:</label>
+        <input type="date" name="datum_od" value="{{ request.GET.datum_od }}">
+
+        <label for="datum_do">Datum do:</label>
+        <input type="date" name="datum_do" value="{{ request.GET.datum_do }}">
+
+        <button type="submit">Filtriraj</button>
+    </form>
+
     <ul>
         {% for prihod in prihodi %}
             <li>
@@ -14,9 +25,10 @@
                 Iznos: {{ prihod.iznos }} €<br>
                 Datum: {{ prihod.datum }}<br>
                 Opis: {{ prihod.opis }}<br>
-                Budžet: {{ prihod.budzet.naziv }}<br>
+                Budžet: {% if prihod.budzet %}{{ prihod.budzet.naziv }}{% else %}Nema budžeta{% endif %}<br>
             </li>
         {% endfor %}
     </ul>
+
 </body>
 </html>

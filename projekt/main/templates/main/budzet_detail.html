@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalji Budžeta</title>
+</head>
+<body>
+    <h1>Detalji Budžeta: {{ budzet.naziv }}</h1>
+    <p><strong>Iznos:</strong> {{ budzet.iznos }} €</p>
+    <p><strong>Datum:</strong> {{ budzet.datum }}</p>
+    <p><strong>Opis:</strong> {{ budzet.opis }}</p>
+    <p><strong>Kategorija:</strong> {% if budzet.tag %}{{ budzet.tag.naziv }}{% else %}Nema kategorije{% endif %}</p>
+    
+    <h2>Lista prihoda za ovaj budžet:</h2>
+    <ul>
+        {% for prihod in budzet.prihodi.all %}
+            <li>{{ prihod.naziv }} - {{ prihod.iznos }} €</li>
+        {% empty %}
+            <li>Nemate prihoda za ovaj budžet.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Lista rashoda za ovaj budžet:</h2>
+    <ul>
+        {% for rashod in budzet.rashodi.all %}
+            <li>{{ rashod.naziv }} - {{ rashod.iznos }} €</li>
+        {% empty %}
+            <li>Nemate rashoda za ovaj budžet.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'budzet_list' %}">Nazad na popis budžeta</a>
+</body>
+</html>

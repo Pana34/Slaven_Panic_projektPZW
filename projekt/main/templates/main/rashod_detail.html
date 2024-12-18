@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalji Rashoda</title>
+</head>
+<body>
+    <h1>Detalji rashoda: {{ rashod.naziv }}</h1>
+    <p><strong>Iznos:</strong> {{ rashod.iznos }} €</p>
+    <p><strong>Datum:</strong> {{ rashod.datum }}</p>
+    <p><strong>Opis:</strong> {{ rashod.opis }}</p>
+    <p><strong>Budžet:</strong> {% if rashod.budzet %}{{ rashod.budzet.naziv }}{% else %}Nema budžeta{% endif %}</p>
+
+    <a href="{% url 'rashod_list' %}">Nazad na popis rashoda</a>
+</body>
+</html>
