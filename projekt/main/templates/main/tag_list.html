@@ -8,7 +8,6 @@
 <body>
     <h1>Popis svih kategorija</h1>
 
-    <!-- Link za kreiranje nove kategorije -->
     <a href="{% url 'kategorija-create' %}">Dodaj novu kategoriju</a>
 
     <ul>
@@ -16,7 +15,6 @@
             <li>
                 <strong>{{ tag.naziv }}</strong><br>
                 Opis: {% if tag.opis %}{{ tag.opis }}{% else %}Nema opisa{% endif %}<br>
-                <!-- Linkovi za uređivanje i brisanje -->
                 <a href="{% url 'kategorija-update' tag.naziv %}">Uredi</a>
                 <a href="{% url 'kategorija-delete' tag.naziv %}">Obriši</a>
             </li>

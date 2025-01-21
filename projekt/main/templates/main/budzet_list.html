@@ -8,7 +8,6 @@
 <body>
     <h1>Popis svih budžeta</h1>
 
-    <!-- Link za kreiranje novog budžeta -->
     <a href="{% url 'budzet-create' %}">Dodaj novi budžet</a>
 
     <ul>
@@ -19,7 +18,6 @@
                 Datum: {{ budzet.datum }}<br>
                 Opis: {{ budzet.opis }}<br>
                 Kategorija: {{ budzet.tag.naziv|default:"Nema kategorije" }}<br>
-                <!-- Linkovi za uređivanje i brisanje -->
                 <a href="{% url 'budzet-update' budzet.naziv %}">Uredi</a>
                 <a href="{% url 'budzet-delete' budzet.naziv %}">Obriši</a>
             </li>

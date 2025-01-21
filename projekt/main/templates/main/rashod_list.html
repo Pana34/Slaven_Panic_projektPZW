@@ -8,7 +8,6 @@
 <body>
     <h1>Popis svih rashoda</h1>
 
-    <!-- Link za kreiranje novog rashoda -->
     <a href="{% url 'rashod-create' %}">Dodaj novi rashod</a>
 
     <ul>
@@ -19,7 +18,6 @@
                 Datum: {{ rashod.datum }}<br>
                 Opis: {{ rashod.opis }}<br>
                 Budžet: {% if rashod.budzet %}{{ rashod.budzet.naziv }}{% else %}Nema budžeta{% endif %}<br>
-                <!-- Linkovi za uređivanje i brisanje -->
                 <a href="{% url 'rashod-update' rashod.naziv %}">Uredi</a>
                 <a href="{% url 'rashod-delete' rashod.naziv %}">Obriši</a>
             </li>
