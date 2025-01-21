@@ -3,28 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Popis Tagova</title>
+    <title>Popis Kategorija</title>
 </head>
 <body>
-    <h1>Popis svih tagova</h1>
+    <h1>Popis svih kategorija</h1>
 
-    <form method="get">
-        <label for="naziv">Naziv taga:</label>
-        <input type="text" name="naziv" value="{{ request.GET.naziv }}">
-        <button type="submit">Filtriraj</button>
-    </form>
+    <!-- Link za kreiranje nove kategorije -->
+    <a href="{% url 'kategorija-create' %}">Dodaj novu kategoriju</a>
 
     <ul>
         {% for tag in kategorije %}
             <li>
                 <strong>{{ tag.naziv }}</strong><br>
                 Opis: {% if tag.opis %}{{ tag.opis }}{% else %}Nema opisa{% endif %}<br>
-                Povezani budžeti: {% for budzet in tag.budzeti.all %}{{ budzet.naziv }}{% endfor %}<br>
-                Povezani prihodi: {% for prihod in tag.prihodi.all %}{{ prihod.naziv }}{% endfor %}<br>
-                Povezani rashodi: {% for rashod in tag.rashodi.all %}{{ rashod.naziv }}{% endfor %}
+                <!-- Linkovi za uređivanje i brisanje -->
+                <a href="{% url 'kategorija-update' tag.naziv %}">Uredi</a>
+                <a href="{% url 'kategorija-delete' tag.naziv %}">Obriši</a>
             </li>
         {% endfor %}
     </ul>
-
+    <a href="{% url 'korisnik' %}">Nazad na glavnu stranicu</a>
 </body>
 </html>

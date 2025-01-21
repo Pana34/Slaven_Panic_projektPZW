@@ -8,7 +8,10 @@ from django.contrib.auth import logout
 from django.views.generic import ListView
 from main.models import Budzet, Prihod, Rashod, Tag
 from django.shortcuts import get_object_or_404
-from django.views.generic import DetailView
+from django.views.generic import DetailView, UpdateView, DeleteView
+
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
 def index(request):
     is_admin = request.user.groups.filter(name="Administrator").exists()
     is_user = request.user.groups.filter(name="Korisnik").exists()
@@ -127,7 +130,6 @@ class RashodList(ListView):
         return queryset
 
 
-
 class TagList(ListView):
     model = Tag
     template_name = 'main/tag_list.html'
@@ -172,3 +174,121 @@ class TagDetailView(DetailView):
 
     def get_object(self):
         return get_object_or_404(Tag, naziv=self.kwargs['naziv'])
+    
+class BudzetCreateView(CreateView):
+    model = Budzet
+    fields = ['naziv', 'iznos', 'datum', 'opis', 'tag']
+    template_name = 'main/budzet_form.html'
+    success_url = reverse_lazy('budzet_list')
+
+from django.shortcuts import get_object_or_404
+
+class BudzetUpdateView(UpdateView):
+    model = Budzet
+    fields = ['naziv', 'iznos', 'datum', 'opis', 'tag']
+    template_name = 'main/budzet_form.html'
+    success_url = reverse_lazy('budzet_list')
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Budzet, naziv=self.kwargs['naziv'])
+
+class BudzetDeleteView(DeleteView):
+    model = Budzet
+    template_name = 'main/budzet_confirm_delete.html'
+    success_url = reverse_lazy('budzet_list') 
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Budzet, naziv=self.kwargs['naziv'])
+
+class PrihodCreateView(CreateView):
+    model = Prihod
+    fields = ['naziv', 'iznos', 'datum', 'opis', 'budzet']
+    template_name = 'main/prihod_form.html'
+    success_url = reverse_lazy('prihod_list')
+
+class PrihodUpdateView(UpdateView):
+    model = Prihod
+    fields = ['naziv', 'iznos', 'datum', 'opis', 'budzet']
+    template_name = 'main/prihod_form.html'
+    success_url = reverse_lazy('prihod_list')
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Prihod, naziv=self.kwargs['naziv'])
+
+class PrihodDeleteView(DeleteView):
+    model = Prihod
+    template_name = 'main/prihod_confirm_delete.html'
+    success_url = reverse_lazy('prihod_list')
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Prihod, naziv=self.kwargs['naziv'])
+
+class RashodCreateView(CreateView):
+    model = Rashod
+    fields = ['naziv', 'iznos', 'datum', 'opis', 'budzet']
+    template_name = 'main/rashod_form.html'
+    success_url = reverse_lazy('rashod_list') 
+
+class RashodUpdateView(UpdateView):
+    model = Rashod
+    fields = ['naziv', 'iznos', 'datum', 'opis', 'budzet']
+    template_name = 'main/rashod_form.html'
+    success_url = reverse_lazy('rashod_list')
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Rashod, naziv=self.kwargs['naziv'])
+
+class RashodDeleteView(DeleteView):
+    model = Rashod
+    template_name = 'main/rashod_confirm_delete.html'
+    success_url = reverse_lazy('rashod_list')
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Rashod, naziv=self.kwargs['naziv'])
+
+class TagCreateView(CreateView):
+    model = Tag
+    fields = ['naziv', 'opis', 'budzeti', 'prihodi', 'rashodi']
+    template_name = 'main/kategorija_form.html'
+    success_url = reverse_lazy('tag_list') 
+
+from django.shortcuts import get_object_or_404
+from django.views.generic.edit import UpdateView
+from django.urls import reverse_lazy
+
+class TagUpdateView(UpdateView):
+    model = Tag
+    fields = ['naziv', 'opis', 'budzeti', 'prihodi', 'rashodi']
+    template_name = 'main/kategorija_form.html'  
+    success_url = reverse_lazy('tag_list') 
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Tag, naziv=self.kwargs['naziv'])
+from django.views.generic.edit import DeleteView
+from django.urls import reverse_lazy
+
+class TagDeleteView(DeleteView):
+    model = Tag
+    template_name = 'main/kategorija_confirm_delete.html'
+    success_url = reverse_lazy('tag_list') 
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Tag, naziv=self.kwargs['naziv'])
+    
+from rest_framework import generics, permissions
+from .models import Budzet
+from .serializers import BudzetSerializer
+
+class BudzetListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Budzet.objects.all()
+    serializer_class = BudzetSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class BudzetRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Budzet.objects.all()
+    serializer_class = BudzetSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        return get_object_or_404(Budzet, naziv=self.kwargs['naziv'])
+

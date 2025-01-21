@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dodaj Rashod</title>
+</head>
+<body>
+    <h1>Dodaj novi rashod</h1>
+    <form method="post">
+        {% csrf_token %}
+        
+        <div>
+            {{ form.naziv.label_tag }}<br>
+            {{ form.naziv }}
+        </div>
+        
+        <div>
+            {{ form.iznos.label_tag }}<br>
+            {{ form.iznos }}
+        </div>
+        
+        <div>
+            {{ form.datum.label_tag }}<br>
+            <input type="date" name="datum" value="{{ form.instance.datum|date:'Y-m-d' }}">
+        </div>
+        
+        <div>
+            {{ form.opis.label_tag }}<br>
+            {{ form.opis }}
+        </div>
+        
+        <div>
+            {{ form.budzet.label_tag }}<br>
+            {{ form.budzet }}
+        </div>
+        
+        <button type="submit">Spremi</button>
+    </form>
+    <br>
+    <a href="{% url 'rashod_list' %}">Nazad na popis rashoda</a>
+</body>
+</html>

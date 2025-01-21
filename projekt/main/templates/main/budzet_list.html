@@ -8,12 +8,8 @@
 <body>
     <h1>Popis svih budžeta</h1>
 
-    <!-- Forma za filtriranje po nazivu budžeta -->
-    <form method="get">
-        <label for="naziv">Naziv budžeta:</label>
-        <input type="text" name="naziv" value="{{ request.GET.naziv }}">
-        <button type="submit">Filtriraj</button>
-    </form>
+    <!-- Link za kreiranje novog budžeta -->
+    <a href="{% url 'budzet-create' %}">Dodaj novi budžet</a>
 
     <ul>
         {% for budzet in object_list %}
@@ -23,9 +19,13 @@
                 Datum: {{ budzet.datum }}<br>
                 Opis: {{ budzet.opis }}<br>
                 Kategorija: {{ budzet.tag.naziv|default:"Nema kategorije" }}<br>
+                <!-- Linkovi za uređivanje i brisanje -->
+                <a href="{% url 'budzet-update' budzet.naziv %}">Uredi</a>
+                <a href="{% url 'budzet-delete' budzet.naziv %}">Obriši</a>
             </li>
         {% endfor %}
     </ul>
+    <a href="{% url 'korisnik' %}">Nazad na glavnu stranicu</a>
 
 </body>
 </html>

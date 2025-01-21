@@ -8,15 +8,8 @@
 <body>
     <h1>Popis svih rashoda</h1>
 
-    <form method="get">
-        <label for="datum_od">Datum od:</label>
-        <input type="date" name="datum_od" value="{{ request.GET.datum_od }}">
-
-        <label for="datum_do">Datum do:</label>
-        <input type="date" name="datum_do" value="{{ request.GET.datum_do }}">
-
-        <button type="submit">Filtriraj</button>
-    </form>
+    <!-- Link za kreiranje novog rashoda -->
+    <a href="{% url 'rashod-create' %}">Dodaj novi rashod</a>
 
     <ul>
         {% for rashod in rashodi %}
@@ -25,10 +18,13 @@
                 Iznos: {{ rashod.iznos }} €<br>
                 Datum: {{ rashod.datum }}<br>
                 Opis: {{ rashod.opis }}<br>
-                Budžet: {{ rashod.budzet.naziv }}<br>
+                Budžet: {% if rashod.budzet %}{{ rashod.budzet.naziv }}{% else %}Nema budžeta{% endif %}<br>
+                <!-- Linkovi za uređivanje i brisanje -->
+                <a href="{% url 'rashod-update' rashod.naziv %}">Uredi</a>
+                <a href="{% url 'rashod-delete' rashod.naziv %}">Obriši</a>
             </li>
         {% endfor %}
     </ul>
-
+    <a href="{% url 'korisnik' %}">Nazad na glavnu stranicu</a>
 </body>
 </html>

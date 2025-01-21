@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dodaj Kategoriju</title>
+</head>
+<body>
+    <h1>Dodaj novu kategoriju</h1>
+    <form method="post">
+        {% csrf_token %}
+        
+        <div>
+            {{ form.naziv.label_tag }}<br>
+            {{ form.naziv }}
+        </div>
+        
+        <div>
+            {{ form.opis.label_tag }}<br>
+            {{ form.opis }}
+        </div>
+        
+        <div>
+            {{ form.budzeti.label_tag }}<br>
+            {{ form.budzeti }}
+        </div>
+        
+        <div>
+            {{ form.prihodi.label_tag }}<br>
+            {{ form.prihodi }}
+        </div>
+        
+        <div>
+            {{ form.rashodi.label_tag }}<br>
+            {{ form.rashodi }}
+        </div>
+        
+        <button type="submit">Spremi</button>
+    </form>
+    <br>
+    <a href="{% url 'tag_list' %}">Nazad na popis kategorija</a>
+</body>
+</html>

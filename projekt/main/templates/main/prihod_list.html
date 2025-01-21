@@ -8,15 +8,8 @@
 <body>
     <h1>Popis svih prihoda</h1>
 
-    <form method="get">
-        <label for="datum_od">Datum od:</label>
-        <input type="date" name="datum_od" value="{{ request.GET.datum_od }}">
-
-        <label for="datum_do">Datum do:</label>
-        <input type="date" name="datum_do" value="{{ request.GET.datum_do }}">
-
-        <button type="submit">Filtriraj</button>
-    </form>
+    <!-- Link za kreiranje novog prihoda -->
+    <a href="{% url 'prihod-create' %}">Dodaj novi prihod</a>
 
     <ul>
         {% for prihod in prihodi %}
@@ -26,9 +19,12 @@
                 Datum: {{ prihod.datum }}<br>
                 Opis: {{ prihod.opis }}<br>
                 Budžet: {% if prihod.budzet %}{{ prihod.budzet.naziv }}{% else %}Nema budžeta{% endif %}<br>
+                <!-- Linkovi za uređivanje i brisanje -->
+                <a href="{% url 'prihod-update' prihod.naziv %}">Uredi</a>
+                <a href="{% url 'prihod-delete' prihod.naziv %}">Obriši</a>
             </li>
         {% endfor %}
     </ul>
-
+    <a href="{% url 'korisnik' %}">Nazad na glavnu stranicu</a>
 </body>
 </html>

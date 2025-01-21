@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Potvrda Brisanja Rashoda</title>
+</head>
+<body>
+    <h1>Jeste li sigurni da želite obrisati rashod "{{ object.naziv }}"?</h1>
+    <p>Iznos: {{ object.iznos }} €</p>
+    <p>Datum: {{ object.datum }}</p>
+    <p>Opis: {{ object.opis }}</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Da, obriši</button>
+        <a href="{% url 'rashod_list' %}">Odustani</a>
+    </form>
+</body>
+</html>

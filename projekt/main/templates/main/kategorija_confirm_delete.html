@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Potvrda Brisanja Kategorije</title>
+</head>
+<body>
+    <h1>Jeste li sigurni da želite obrisati kategoriju "{{ object.naziv }}"?</h1>
+    <p>Opis: {{ object.opis }}</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Da, obriši</button>
+        <a href="{% url 'tag_list' %}">Odustani</a>
+    </form>
+</body>
+</html>
