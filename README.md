@@ -10,7 +10,7 @@ Ova aplikacija omogućuje korisnicima upravljanje osobnim financijama putem slje
 Aplikacija je implementirana koristeći **Django**, **Django REST Framework** i **Tailwind CSS**.
 
 ## Funkcionalnosti aplikacije
-1. ### CRUD operacije za budžete, prihode, rashode i kategorije:
+1. **CRUD operacije za budžete, prihode, rashode i kategorije**:
    - Kreiranje novih stavki.
    - Pregled svih stavki uz filtriranje.
    - Uređivanje i brisanje stavki.
