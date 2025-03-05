@@ -3,7 +3,6 @@
 ##  Opis zadatka
 Ova aplikacija omogućuje korisnicima upravljanje osobnim financijama putem sljedećih funkcionalnosti:
 - Kreiranje, pregled, uređivanje i brisanje **budžeta, prihoda, rashoda i kategorija budžeta**.
-- Prikaz **popisa svih stavki** s mogućnošću filtriranja.
 - **Interaktivni grafikoni** koji vizualiziraju financijske podatke.
 - **RESTful API** za rad s modelima putem API endpointa.
 
