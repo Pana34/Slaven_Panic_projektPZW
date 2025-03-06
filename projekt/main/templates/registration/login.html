@@ -1,26 +1,40 @@
-{% if form.errors %}
-    <h3>Unos nije ispravan.</h3>
-{% endif %}
-{% if next %}
-    {% if user.is_authenticated %}
-        <p>Your account doesn't have access to this page. To proceed,
-        please login with an account that has access.</p>
-    {% else %}
-        <p>Please login to see this page.</p>
-    {% endif %}
-{% endif %}
-<form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    <table>
-      <tr>
-        <td>{{ form.username.label_tag }}</td>
-        <td>{{ form.username }}</td>
-      </tr>
-      <tr>
-        <td>{{ form.password.label_tag }}</td>
-        <td>{{ form.password }}</td>
-      </tr>
-    </table>
-    <input type="submit" value="login" />
-    <input type="hidden" name="next" value="{{ next }}" />
-  </form>
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prijava</title>
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-6 flex flex-col items-center justify-center min-h-screen">
+    <div class="bg-white shadow-lg rounded-lg p-6 text-center w-96">
+        <h1 class="text-2xl font-bold mb-4">Prijava</h1>
+
+        {% if form.errors %}
+            <p class="text-red-600">Uneseni podaci nisu ispravni. Pokušajte ponovno.</p>
+        {% endif %}
+
+        <form method="post" action="{% url 'login' %}" class="space-y-4">
+            {% csrf_token %}
+            <div>
+                <label class="block text-gray-700 text-left" for="{{ form.username.id_for_label }}">Korisničko ime:</label>
+                <input type="text" name="username" id="{{ form.username.id_for_label }}" value="{{ form.username.value|default_if_none:'' }}"
+                    class="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+                <label class="block text-gray-700 text-left" for="{{ form.password.id_for_label }}">Lozinka:</label>
+                <input type="password" name="password" id="{{ form.password.id_for_label }}" 
+                    class="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <button type="submit" class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+                Prijavi se
+            </button>
+        </form>
+
+        <p class="mt-4">Nemate račun? 
+            <a href="{% url 'register' %}" class="text-blue-500 hover:underline">Registrirajte se</a>
+        </p>
+    </div>
+</body>
+</html>

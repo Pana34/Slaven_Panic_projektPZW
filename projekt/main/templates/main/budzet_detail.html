@@ -4,32 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalji Budžeta</title>
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Detalji Budžeta: {{ budzet.naziv }}</h1>
-    <p><strong>Iznos:</strong> {{ budzet.iznos }} €</p>
-    <p><strong>Datum:</strong> {{ budzet.datum }}</p>
-    <p><strong>Opis:</strong> {{ budzet.opis }}</p>
-    <p><strong>Kategorija:</strong> {% if budzet.tag %}{{ budzet.tag.naziv }}{% else %}Nema kategorije{% endif %}</p>
-    
-    <h2>Lista prihoda za ovaj budžet:</h2>
-    <ul>
-        {% for prihod in budzet.prihodi.all %}
-            <li>{{ prihod.naziv }} - {{ prihod.iznos }} €</li>
-        {% empty %}
-            <li>Nemate prihoda za ovaj budžet.</li>
-        {% endfor %}
-    </ul>
+<body class="bg-gray-100 p-6 flex flex-col items-center min-h-screen">
+    <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-2xl">
+        <h1 class="text-2xl font-bold mb-4 text-center">Detalji Budžeta</h1>
 
-    <h2>Lista rashoda za ovaj budžet:</h2>
-    <ul>
-        {% for rashod in budzet.rashodi.all %}
-            <li>{{ rashod.naziv }} - {{ rashod.iznos }} €</li>
-        {% empty %}
-            <li>Nemate rashoda za ovaj budžet.</li>
-        {% endfor %}
-    </ul>
+        <div class="bg-gray-50 p-4 rounded shadow">
+            <h2 class="text-lg font-semibold">{{ budzet.naziv }}</h2>
+            <p class="text-gray-700">Iznos: <strong>{{ budzet.iznos }} €</strong></p>
+            <p class="text-gray-700">Datum: {{ budzet.datum }}</p>
+            <p class="text-gray-700">Opis: {{ budzet.opis }}</p>
+            <p class="text-gray-700">Tag: {% if budzet.tag %}{{ budzet.tag.naziv }}{% else %}Nema tagova{% endif %}</p>
+        </div>
 
-    <a href="{% url 'budzet_list' %}">Nazad na popis budžeta</a>
+        <div class="mt-4 flex gap-2">
+            <a href="{% url 'budzet-update' budzet.naziv %}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+                Uredi
+            </a>
+            <a href="{% url 'budzet-delete' budzet.naziv %}" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">
+                Obriši
+            </a>
+        </div>
+
+        <a href="{% url 'budzet_list' %}" class="mt-6 inline-block bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
+            Nazad na popis budžeta
+        </a>
+    </div>
 </body>
 </html>

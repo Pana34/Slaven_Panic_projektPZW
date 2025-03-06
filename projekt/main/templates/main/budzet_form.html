@@ -3,41 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dodaj ili Uredi Budžet</title>
+    <title>{% if budzet %}Uredi{% else %}Dodaj{% endif %} Budžet</title>
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Dodaj ili Uredi Budžet</h1>
-    <form method="post">
-        {% csrf_token %}
-        
-        <div>
-            {{ form.naziv.label_tag }}<br>
-            {{ form.naziv }}
-        </div>
-        
-        <div>
-            {{ form.iznos.label_tag }}<br>
-            {{ form.iznos }}
-        </div>
-        
-        <div>
-            {{ form.datum.label_tag }}<br>
-            <input type="date" name="datum" value="{{ form.instance.datum|date:'Y-m-d' }}">
-        </div>
-        
-        <div>
-            {{ form.opis.label_tag }}<br>
-            {{ form.opis }}
-        </div>
-        
-        <div>
-            {{ form.tag.label_tag }}<br>
-            {{ form.tag }}
-        </div>
-        
-        <button type="submit">Spremi</button>
-    </form>
-    <br>
-    <a href="{% url 'budzet_list' %}">Nazad na popis budžeta</a>
+<body class="bg-gray-100 p-6 flex flex-col items-center min-h-screen">
+    <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-md">
+        <h1 class="text-2xl font-bold mb-4 text-center">
+            {% if budzet %}
+                Uredi Budžet: {{ budzet.naziv }}
+            {% else %}
+                Dodaj Novi Budžet
+            {% endif %}
+        </h1>
+
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <div>
+                <label for="{{ form.naziv.id_for_label }}" class="block text-gray-700 text-left">Naziv Budžeta:</label>
+                <input type="text" name="naziv" id="{{ form.naziv.id_for_label }}" value="{{ form.naziv.value|default_if_none:'' }}"
+                    class="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label for="{{ form.iznos.id_for_label }}" class="block text-gray-700 text-left">Iznos:</label>
+                <input type="number" name="iznos" id="{{ form.iznos.id_for_label }}" value="{{ form.iznos.value|default_if_none:'' }}"
+                    class="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label for="{{ form.datum.id_for_label }}" class="block text-gray-700 text-left">Datum:</label>
+                <input type="date" name="datum" id="{{ form.datum.id_for_label }}" 
+                    value="{{ form.datum.value|date:'Y-m-d' }}"
+                    class="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label for="{{ form.opis.id_for_label }}" class="block text-gray-700 text-left">Opis:</label>
+                <textarea name="opis" id="{{ form.opis.id_for_label }}" rows="3"
+                    class="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500">{{ form.opis.value|default_if_none:'' }}</textarea>
+            </div>
+
+            <div>
+                <label for="{{ form.tag.id_for_label }}" class="block text-gray-700 text-left">Tag:</label>
+                {{ form.tag }}
+            </div>
+
+            <button type="submit" class="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">
+                {% if budzet %}Ažuriraj{% else %}Dodaj{% endif %}
+            </button>
+        </form>
+
+        <a href="{% url 'budzet_list' %}" class="mt-6 inline-block bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
+            Odustani
+        </a>
+    </div>
 </body>
 </html>

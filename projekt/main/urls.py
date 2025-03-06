@@ -9,6 +9,9 @@ from main.views import TagCreateView, TagUpdateView, TagDeleteView
 from .views import BudzetListCreateAPIView, BudzetRetrieveUpdateDestroyAPIView
 urlpatterns = [
     path('', views.index, name='index'),
+    path('api/budget_data/', views.budget_data, name='budget_data'),
+    path('api/income_expense_data/', views.income_expense_data, name='income_expense_data'),
+    path('api/financial_trend_data/', views.financial_trend_data, name='financial_trend_data'),
     path('korisnik/', views.korisnik, name='korisnik'),
     path('budzeti/', BudzetList.as_view(), name= 'budzet_list'),
     path('prihodi/', PrihodList.as_view(), name='prihod_list'),

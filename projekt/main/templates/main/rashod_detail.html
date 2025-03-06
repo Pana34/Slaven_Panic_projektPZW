@@ -4,14 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalji Rashoda</title>
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Detalji rashoda: {{ rashod.naziv }}</h1>
-    <p><strong>Iznos:</strong> {{ rashod.iznos }} €</p>
-    <p><strong>Datum:</strong> {{ rashod.datum }}</p>
-    <p><strong>Opis:</strong> {{ rashod.opis }}</p>
-    <p><strong>Budžet:</strong> {% if rashod.budzet %}{{ rashod.budzet.naziv }}{% else %}Nema budžeta{% endif %}</p>
+<body class="bg-gray-100 p-6 flex flex-col items-center min-h-screen">
+    <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-2xl">
+        <h1 class="text-2xl font-bold mb-4 text-center">Detalji Rashoda</h1>
 
-    <a href="{% url 'rashod_list' %}">Nazad na popis rashoda</a>
+        <div class="bg-gray-50 p-4 rounded shadow">
+            <h2 class="text-lg font-semibold">{{ rashod.naziv }}</h2>
+            <p class="text-gray-700">Iznos: <strong>{{ rashod.iznos }} €</strong></p>
+            <p class="text-gray-700">Datum: {{ rashod.datum }}</p>
+            <p class="text-gray-700">Opis: {{ rashod.opis }}</p>
+            <p class="text-gray-700">Budžet: {% if rashod.budzet %}{{ rashod.budzet.naziv }}{% else %}Nema budžeta{% endif %}</p>
+        </div>
+
+        <div class="mt-4 flex gap-2">
+            <a href="{% url 'rashod-update' rashod.naziv %}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+                Uredi
+            </a>
+            <a href="{% url 'rashod-delete' rashod.naziv %}" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">
+                Obriši
+            </a>
+        </div>
+
+        <a href="{% url 'rashod_list' %}" class="mt-6 inline-block bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
+            Nazad na popis rashoda
+        </a>
+    </div>
 </body>
 </html>

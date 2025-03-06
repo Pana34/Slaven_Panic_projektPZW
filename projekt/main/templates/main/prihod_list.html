@@ -4,25 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Popis Prihoda</title>
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Popis svih prihoda</h1>
+<body class="bg-gray-100 p-6 flex flex-col items-center min-h-screen">
+    <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-2xl">
+        <h1 class="text-2xl font-bold mb-4 text-center">Popis svih prihoda</h1>
 
-    <a href="{% url 'prihod-create' %}">Dodaj novi prihod</a>
+        <a href="{% url 'prihod-create' %}" class="mb-4 inline-block bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">
+            Dodaj novi prihod
+        </a>
 
-    <ul>
-        {% for prihod in prihodi %}
-            <li>
-                <strong>{{ prihod.naziv }}</strong><br>
-                Iznos: {{ prihod.iznos }} €<br>
-                Datum: {{ prihod.datum }}<br>
-                Opis: {{ prihod.opis }}<br>
-                Budžet: {% if prihod.budzet %}{{ prihod.budzet.naziv }}{% else %}Nema budžeta{% endif %}<br>
-                <a href="{% url 'prihod-update' prihod.naziv %}">Uredi</a>
-                <a href="{% url 'prihod-delete' prihod.naziv %}">Obriši</a>
-            </li>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'korisnik' %}">Nazad na glavnu stranicu</a>
+        {% if prihodi %}
+            <ul class="space-y-4">
+                {% for prihod in prihodi %}
+                <li class="bg-gray-50 p-4 rounded shadow">
+                    <h2 class="text-lg font-semibold">{{ prihod.naziv }}</h2>
+                    <p class="text-gray-700">Iznos: <strong>{{ prihod.iznos }} €</strong></p>
+                    <p class="text-gray-700">Datum: {{ prihod.datum }}</p>
+                    <p class="text-gray-700">Opis: {{ prihod.opis }}</p>
+
+                    <div class="mt-3 flex gap-2">
+                        <a href="{% url 'prihod_detail' prihod.naziv %}" class="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-700">
+                            Detalji
+                        </a>                        
+                        <a href="{% url 'prihod-update' prihod.naziv %}" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-700">
+                            Uredi
+                        </a>
+                        <a href="{% url 'prihod-delete' prihod.naziv %}" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700">
+                            Obriši
+                        </a>
+                        
+                    </div>
+                </li>
+            {% endfor %}
+
+            </ul>
+        {% else %}
+            <p class="text-gray-600 text-center">Nema dostupnih prihoda.</p>
+        {% endif %}
+
+        <a href="{% url 'korisnik' %}" class="mt-6 inline-block bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
+            Nazad na glavnu stranicu
+        </a>
+    </div>
 </body>
 </html>

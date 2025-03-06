@@ -3,39 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalji Taga</title>
+    <title>Detalji Kategorije</title>
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Detalji taga: {{ tag.naziv }}</h1>
-    <p><strong>Opis:</strong> {% if tag.opis %}{{ tag.opis }}{% else %}Nema opisa{% endif %}</p>
-    
-    <h2>Povezani budžeti:</h2>
-    <ul>
-        {% for budzet in tag.budzeti.all %}
-            <li>{{ budzet.naziv }} - {{ budzet.iznos }} €</li>
-        {% empty %}
-            <li>Nema povezanih budžeta.</li>
-        {% endfor %}
-    </ul>
+<body class="bg-gray-100 p-6 flex flex-col items-center min-h-screen">
+    <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-2xl">
+        <h1 class="text-2xl font-bold mb-4 text-center">Detalji Kategorije</h1>
 
-    <h2>Povezani prihodi:</h2>
-    <ul>
-        {% for prihod in tag.prihodi.all %}
-            <li>{{ prihod.naziv }} - {{ prihod.iznos }} €</li>
-        {% empty %}
-            <li>Nema povezanih prihoda.</li>
-        {% endfor %}
-    </ul>
+        <div class="bg-gray-50 p-4 rounded shadow">
+            <h2 class="text-lg font-semibold">{{ kategorija.naziv }}</h2>
+            <p class="text-gray-700">Opis: {{ kategorija.opis }}</p>
+            <p class="text-gray-700">Povezani Budžeti:</p>
+            <ul class="list-disc pl-5">
+                {% for budzet in kategorija.budzeti.all %}
+                    <li class="text-gray-700">{{ budzet.naziv }}</li>
+                {% empty %}
+                    <li class="text-gray-500">Nema povezanih budžeta</li>
+                {% endfor %}
+            </ul>
+        </div>
 
-    <h2>Povezani rashodi:</h2>
-    <ul>
-        {% for rashod in tag.rashodi.all %}
-            <li>{{ rashod.naziv }} - {{ rashod.iznos }} €</li>
-        {% empty %}
-            <li>Nema povezanih rashoda.</li>
-        {% endfor %}
-    </ul>
+        <div class="mt-4 flex gap-2">
+            <a href="{% url 'kategorija-update' kategorija.naziv %}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+                Uredi
+            </a>
+            <a href="{% url 'kategorija-delete' kategorija.naziv %}" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">
+                Obriši
+            </a>
+        </div>
 
-    <a href="{% url 'tag_list' %}">Nazad na popis tagova</a>
+        <a href="{% url 'tag_list' %}" class="mt-6 inline-block bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
+            Nazad na popis kategorija
+        </a>
+    </div>
 </body>
 </html>

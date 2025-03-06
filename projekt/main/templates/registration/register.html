@@ -1,11 +1,55 @@
-<form method="post" action="{% url 'register' %}">
-    {% csrf_token %}
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registracija</title>
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-6 flex flex-col items-center justify-center min-h-screen">
+    <div class="bg-white shadow-lg rounded-lg p-6 text-center w-96">
+        <h1 class="text-2xl font-bold mb-4">Registracija</h1>
 
-    {% if form.errors %}
-        <p>Greška.</p>
-    {% endif %}
+        {% if form.errors %}
+            <p class="text-red-600">Došlo je do greške pri unosu podataka. Pokušajte ponovno.</p>
+        {% endif %}
 
-    {{ form }}
+        <form method="post" action="{% url 'register' %}" class="space-y-4">
+            {% csrf_token %}
+            
+            <div>
+                <label class="block text-gray-700 text-left" for="{{ form.username.id_for_label }}">Korisničko ime:</label>
+                <input type="text" name="username" id="{{ form.username.id_for_label }}" value="{{ form.username.value|default_if_none:'' }}"
+                    class="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
 
-    <input type="submit" value="Register" />
-</form>
+            <div>
+                <label class="block text-gray-700 text-left" for="{{ form.email.id_for_label }}">E-mail:</label>
+                <input type="email" name="email" id="{{ form.email.id_for_label }}" value="{{ form.email.value|default_if_none:'' }}"
+                    class="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label class="block text-gray-700 text-left" for="{{ form.password1.id_for_label }}">Lozinka:</label>
+                <input type="password" name="password1" id="{{ form.password1.id_for_label }}"
+                    class="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label class="block text-gray-700 text-left" for="{{ form.password2.id_for_label }}">Potvrdi lozinku:</label>
+                <input type="password" name="password2" id="{{ form.password2.id_for_label }}"
+                    class="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <button type="submit" class="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">
+                Registriraj se
+            </button>
+        </form>
+
+        <p class="mt-4">Već imate račun? 
+            <a href="{% url 'login' %}" class="text-blue-500 hover:underline">Prijavite se</a>
+        </p>
+    </div>
+</body>
+</html>

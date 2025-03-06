@@ -1,27 +1,117 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Početna Stranica</title>
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>This is our homepage</h1>
+<body class="bg-gray-100 p-6 flex flex-col items-center min-h-screen">
+    <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-lg text-center">
+        <h1 class="text-2xl font-bold mb-4">Dobrodošli, {{ user.username }}!</h1>
 
-    {% if user.is_authenticated %}
-        <p>Vaše ime: {{ user.username }}</p>
+        <!-- Grafikon budžeta -->
+        <div class="mb-6">
+            <canvas id="budgetChart" width="400" height="200"></canvas>
+        </div>
+        <div class="mb-6">
+            <canvas id="incomeExpenseChart" width="400" height="200"></canvas>
+        </div>
+        <div class="mb-6">
+            <canvas id="trendChart" width="400" height="200"></canvas>
+        </div>
+        
+        <!-- Gumb za preusmjeravanje na glavni meni -->
+        <a href="{% url 'korisnik' %}" class="w-full block bg-blue-500 text-white px-4 py-2 rounded text-center hover:bg-blue-700">
+            Glavni Meni
+        </a>
 
-        {% if is_admin %}
-            <p>Dobrodošli, Administrator!</p>
-            <a href="/admin/">Admin Panel</a>
-        {% elif is_user %}
-            <p>Dobrodošli, Korisniče!</p>
-            <a href="/main/korisnik/">Korisnički Panel</a>
-        {% else %}
-            <p>Niste dodijeljeni nijednoj grupi.</p>
-        {% endif %}
+        <!-- Gumb za odjavu -->
+        <form method="POST" action="{% url 'logout' %}" class="mt-4">
+            {% csrf_token %}
+            <button type="submit" class="w-full bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">
+                Odjava
+            </button>
+        </form>
+    </div>
 
-    {% else %}
-        <p>Niste prijavljeni.</p>
-    {% endif %}
+    <!-- JavaScript za dohvaćanje podataka i crtanje grafikona -->
+    <script>
+        fetch("{% url 'budget_data' %}") // Django view koji vraća JSON podatke
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('budgetChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar', // Može biti 'line', 'pie', 'doughnut', 'bar', itd.
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            label: 'Raspodjela Budžeta',
+                            data: data.values,
+                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            });
+    </script>
+    <script>
+        fetch("{% url 'income_expense_data' %}")
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('incomeExpenseChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            data: data.values,
+                            backgroundColor: ['rgba(75, 192, 192, 0.5)', 'rgba(255, 99, 132, 0.5)'],
+                            borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: { responsive: true }
+                });
+            });
+    </script>
+    <script>
+        fetch("{% url 'financial_trend_data' %}")
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('trendChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: data.labels,
+                        datasets: [
+                            {
+                                label: 'Prihodi',
+                                data: data.income_values,
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                fill: false
+                            },
+                            {
+                                label: 'Rashodi',
+                                data: data.expense_values,
+                                borderColor: 'rgba(255, 99, 132, 1)',
+                                fill: false
+                            }
+                        ]
+                    },
+                    options: { responsive: true }
+                });
+            });
+    </script>
+    
 </body>
 </html>

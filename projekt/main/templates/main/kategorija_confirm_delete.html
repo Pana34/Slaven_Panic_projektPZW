@@ -3,15 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Potvrda Brisanja Kategorije</title>
+    <title>Potvrda brisanja kategorije</title>
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Jeste li sigurni da želite obrisati kategoriju "{{ object.naziv }}"?</h1>
-    <p>Opis: {{ object.opis }}</p>
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit">Da, obriši</button>
-        <a href="{% url 'tag_list' %}">Odustani</a>
-    </form>
+<body class="bg-gray-100 p-6 flex flex-col items-center min-h-screen">
+    <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-md text-center">
+        <h1 class="text-2xl font-bold mb-4 text-red-600">Potvrda brisanja kategorije</h1>
+        <p class="text-gray-700 mb-4">Jeste li sigurni da želite obrisati kategoriju "<strong>{{ kategorija.naziv }}</strong>"?</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="w-full bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">
+                Da, obriši
+            </button>
+        </form>
+
+        <a href="{% url 'tag_list' %}" class="mt-4 inline-block bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700">
+            Odustani
+        </a>
+    </div>
 </body>
 </html>

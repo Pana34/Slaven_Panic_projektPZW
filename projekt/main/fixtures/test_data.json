@@ -1,0 +1,54 @@
+[
+    {
+        "model": "main.tag",
+        "pk": 1,
+        "fields": {
+            "naziv": "Štednja",
+            "opis": "Kategorija za štednju."
+        }
+    },
+    {
+        "model": "main.budzet",
+        "pk": 1,
+        "fields": {
+            "naziv": "Mjesečni Budžet",
+            "iznos": 1000.00,
+            "datum": "2024-03-01",
+            "opis": "Mjesečni budžet za osnovne troškove",
+            "tag": 1
+        }
+    },
+    {
+        "model": "main.prihod",
+        "pk": 1,
+        "fields": {
+            "naziv": "Plaća",
+            "iznos": 1500.00,
+            "datum": "2024-03-05",
+            "opis": "Mjesečna plaća",
+            "budzet": 1
+        }
+    },
+    {
+        "model": "main.rashod",
+        "pk": 1,
+        "fields": {
+            "naziv": "Stanarina",
+            "iznos": 500.00,
+            "datum": "2024-03-02",
+            "opis": "Mjesečni trošak stanarine",
+            "budzet": 1
+        }
+    },
+    {
+        "model": "main.rashod",
+        "pk": 2,
+        "fields": {
+            "naziv": "Hrana",
+            "iznos": 300.00,
+            "datum": "2024-03-10",
+            "opis": "Troškovi hrane",
+            "budzet": 1
+        }
+    }
+]

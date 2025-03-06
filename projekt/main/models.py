@@ -5,7 +5,9 @@ class Budzet(models.Model):
     iznos = models.FloatField()
     datum = models.DateField()
     opis = models.TextField()
-    tag = models.OneToOneField('Tag', on_delete=models.SET_NULL, null=True, blank=True, related_name='budzet')
+    tag = models.ForeignKey('Tag', on_delete=models.SET_NULL, null=True, blank=True, related_name='budzet_set')
+
+
     
     def __str__(self):
         return self.naziv

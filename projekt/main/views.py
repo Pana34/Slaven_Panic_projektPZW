@@ -12,6 +12,9 @@ from django.views.generic import DetailView, UpdateView, DeleteView
 
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
+
+from django.shortcuts import render
+
 def index(request):
     is_admin = request.user.groups.filter(name="Administrator").exists()
     is_user = request.user.groups.filter(name="Korisnik").exists()
@@ -22,6 +25,8 @@ def index(request):
     }
     
     return render(request, 'main/index.html', context)
+
+
 
 def register(request):
     if request.method == 'POST':
@@ -72,7 +77,7 @@ def custom_logout(request):
     return redirect('login')
 
 def budzet_list(request):
-    budzeti = Budzet.objects.all()
+    budzeti = Budzet.objects.all() 
     return render(request, 'main/budzet_list.html', {'budzeti': budzeti})
 
 def prihod_list(request):
@@ -89,11 +94,13 @@ def tag_list(request):
 
 
 class BudzetList(ListView):
-    model= Budzet
+    model = Budzet
+    template_name = 'main/budzet_list.html' 
+    context_object_name = 'budzeti'  
 
     def get_queryset(self):
         queryset = Budzet.objects.all()
-        naziv_filter = self.request.GET.get('naziv') 
+        naziv_filter = self.request.GET.get('naziv')
         if naziv_filter:
             queryset = queryset.filter(naziv__icontains=naziv_filter)
         return queryset
@@ -271,7 +278,8 @@ class TagDeleteView(DeleteView):
     model = Tag
     template_name = 'main/kategorija_confirm_delete.html'
     success_url = reverse_lazy('tag_list') 
-
+    context_object_name = "kategorija" 
+    
     def get_object(self, queryset=None):
         return get_object_or_404(Tag, naziv=self.kwargs['naziv'])
     
@@ -292,3 +300,52 @@ class BudzetRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     def get_object(self):
         return get_object_or_404(Budzet, naziv=self.kwargs['naziv'])
 
+from django.http import JsonResponse
+
+def budget_data(request):
+    budzeti = Budzet.objects.all()
+    labels = [budzet.naziv for budzet in budzeti]
+    values = [budzet.iznos for budzet in budzeti]
+
+    return JsonResponse({'labels': labels, 'values': values})
+
+from django.db.models import Sum
+from django.http import JsonResponse
+
+def income_expense_data(request):
+    total_income = Prihod.objects.aggregate(Sum('iznos'))['iznos__sum'] or 0
+    total_expense = Rashod.objects.aggregate(Sum('iznos'))['iznos__sum'] or 0
+
+    return JsonResponse({
+        'labels': ['Prihodi', 'Rashodi'],
+        'values': [total_income, total_expense]
+    })
+from django.utils.timezone import now
+from django.db.models.functions import TruncMonth
+import datetime
+
+def financial_trend_data(request):
+    # Grupiranje prihoda i rashoda po mjesecima
+    income_data = Prihod.objects.annotate(month=TruncMonth('datum')).values('month').annotate(total=Sum('iznos'))
+    expense_data = Rashod.objects.annotate(month=TruncMonth('datum')).values('month').annotate(total=Sum('iznos'))
+
+    # Kreiranje skupa svih dostupnih mjeseci
+    all_months = set(entry['month'] for entry in income_data) | set(entry['month'] for entry in expense_data)
+
+    # Sortiranje mjeseci kronološki
+    sorted_months = sorted(all_months)
+
+    labels = [month.strftime('%Y-%m') for month in sorted_months]
+    income_values = []
+    expense_values = []
+
+    # Popunjavanje podataka za prihode i rashode
+    for month in sorted_months:
+        income_values.append(next((entry['total'] for entry in income_data if entry['month'] == month), 0))
+        expense_values.append(next((entry['total'] for entry in expense_data if entry['month'] == month), 0))
+
+    return JsonResponse({
+        'labels': labels,
+        'income_values': income_values,
+        'expense_values': expense_values
+    })

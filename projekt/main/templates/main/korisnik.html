@@ -1,23 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Korisnički Panel</title>
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Dobrodošli u korisnički panel!</h1>
-    <p>Ovdje su dostupne informacije za korisnike:</p>
+<body class="bg-gray-100 p-6 flex flex-col items-center min-h-screen">
+    <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-lg text-center">
+        <h1 class="text-2xl font-bold mb-4">Dobrodošli u korisnički panel!</h1>
+        <p class="text-gray-700 mb-4">Ovdje su dostupne informacije za korisnike:</p>
 
-    <ul>
-        <li><a href="{% url 'index' %}">Početna stranica</a></li>
-        <li><a href="{% url 'budzet_list' %}">Pregled budžeta</a></li>
-        <li><a href="{% url 'prihod_list' %}">Pregled prihoda</a></li>
-        <li><a href="{% url 'rashod_list' %}">Pregled rashoda</a></li>
-        <li><a href="{% url 'tag_list' %}">Pregled tagova</a></li>
-    </ul>
-    <form method="POST" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit">Odjava</button>
-    </form>
+        <div class="space-y-3">
+            <a href="{% url 'index' %}" class="w-full block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+                Statistika
+            </a>
+            <a href="{% url 'budzet_list' %}" class="w-full block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+                Pregled budžeta
+            </a>
+            <a href="{% url 'prihod_list' %}" class="w-full block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+                Pregled prihoda
+            </a>
+            <a href="{% url 'rashod_list' %}" class="w-full block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+                Pregled rashoda
+            </a>
+            <a href="{% url 'tag_list' %}" class="w-full block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+                Pregled kategorija
+            </a>
+        </div>
+
+        <form method="POST" action="{% url 'logout' %}" class="mt-6">
+            {% csrf_token %}
+            <button type="submit" class="w-full bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">
+                Odjava
+            </button>
+        </form>
+    </div>
 </body>
 </html>
